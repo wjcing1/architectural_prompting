@@ -36,7 +36,7 @@
 
 ### 【1. 主体定义】 (Subject)
 
-* **[视角类型]**: 见 `prompt_categories.csv` -> `View Type`
+* **视角/机位**: 由 `【0. 前提控制】` 锁定，不在 Subject 重复声明
 * **[建筑类型]**: 用户输入 (e.g., Art Museum)
 * **[风格/事务所]**: 见 `prompt_categories.csv` -> `Building Style` (e.g., Zaha Hadid, MIR Style)
 
