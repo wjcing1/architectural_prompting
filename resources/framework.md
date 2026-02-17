@@ -1,4 +1,4 @@
-# 建筑渲染 Prompt 框架 v1.3
+# 建筑渲染 Prompt 框架 v1.5
 
 > **Architecture Rendering Prompt Framework**
 >
@@ -673,13 +673,18 @@ Ensure physically plausible lighting/material behavior and consistent shadow-ref
 
 ---
 
-## 📖 故事层 | Story Layer（可选但推荐）
+## 📖 故事层 | Story Layer（写实模式必填）
 
 > **故事性是让效果图从"技术展示"变成"情感触动"的关键**
 >
 > 故事 = 时间点 + 人物 + 正在发生的事 + 情绪氛围
 >
 > 不是在画一个"建筑"，而是在画一个**"时刻"**
+
+> **Narrative Gate Rule (Mandatory for photorealistic):**
+> - 必须先确定唯一主事件（Primary Beat）。
+> - 必须给出 Story Card：`Where/When/Who/What/Why/Mood/Evidence(>=2)`。
+> - 若主事件冲突，禁止直接输出写实版。
 
 ### 填空模板
 
@@ -690,6 +695,18 @@ Ensure physically plausible lighting/material behavior and consistent shadow-ref
 [空间正在发生：某个位置正在进行的活动]。
 [自然动态：自然元素的动态变化]。
 建筑的[特征]仿佛在说"[拟人化表达]"。
+```
+
+### Story Card 模板（生成前）
+
+```text
+Where: [建筑类型/功能]
+When: [时段+天气]
+Who: [主体人群]
+What (Primary Beat): [唯一主事件]
+Why: [行为动机]
+Mood: [目标情绪]
+Evidence: [证据1], [证据2], ...
 ```
 
 ### Level 1：时间故事
@@ -829,9 +846,17 @@ gravity-defying elements, impossible sun-moon co-existence.
 - [ ] ✅ 建筑类型和风格明确了吗？（主体定义）
 - [ ] ✅ 时间和光线描述了吗？（光线与氛围）
 - [ ] ✅ 受光面和阴影的颜色写了吗？（光线与氛围）
+- [ ] ✅ 主叙事事件是否唯一清晰？（Narrative Gate）
+- [ ] ✅ Story Card 是否完整（Where/When/Who/What/Why/Mood/Evidence>=2）？（Narrative Gate）
+- [ ] ✅ 情绪是否由光线+行为+构图共同支持？（Narrative Gate）
+- [ ] ✅ 若宣称写实叙事，是否满足 `N0=0 且 Narrative Score>=80`？（Narrative Gate）
 - [ ] ✅ 时间、天气、光影是否物理一致？（Physics Gate）
 - [ ] ✅ 阴影方向与主光源方向一致吗？（Physics Gate）
 - [ ] ✅ 材质湿度与地面反射描述一致吗？（Physics Gate）
+- [ ] ✅ 室内自然光是否存在真实入射路径（窗/天窗/开口）？（Physics Gate）
+- [ ] ✅ 同一材质是否出现互斥光学属性（如 matte + mirror）？（Physics Gate）
+- [ ] ✅ 镜头语言是否单一一致（避免广角与长焦同帧冲突）？（Physics Gate）
+- [ ] ✅ 若宣称 photorealistic，是否满足 `P0=0 且 Physics Score>=85`？（Physics Gate）
 - [ ] ✅ 主材质的纹理和分缝写了吗？（材质细节）
 - [ ] ✅ 前景有元素吗？（环境与构图）
 - [ ] ✅ 中景有树木或框架吗？（环境与构图）
@@ -893,10 +918,12 @@ Ensure physically plausible lighting/material behavior and consistent shadow-ref
 
 ---
 
-> **版本**: v1.3  
+> **版本**: v1.5  
 > **更新日期**: 2026-02-17  
 > **核心改进**:
 >
 > - v1.1: 每个部分增加了填空模板
 > - v1.2: 新增第一性原理5W框架 + 故事层章节
 > - v1.3: 新增物理一致性约束、冲突排除词、Physics Gate 快速检查项
+> - v1.4: 新增 Physics Gate 严格门槛（P0/P1/P2 + Score）与高强度一致性检查项
+> - v1.5: 新增 Narrative Gate 必填规则、Story Card 模板与叙事完整性检查项

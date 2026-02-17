@@ -1,13 +1,13 @@
-# 建筑渲染架构师工作流 (Prompt Architect Workflow) v4.2 (Strict Logic)
+# 建筑渲染架构师工作流 (Prompt Architect Workflow) v5.1 (Strict Logic)
 
-## 🎯 核心理念：精准控制、物理一致、再做优化
+## 🎯 核心理念：叙事先行、物理一致、再做优化
 
 > **逻辑公式：**
-> **Prompt = 骨架 (Framework V1) + 必填项 (Mandatory Light/Mat) + 物理一致性校验 (Physics Gate) + 隐式优化 (Implicit Opt)**
+> **Prompt = 骨架 (Framework V1) + 必填项 (Mandatory Light/Mat) + 叙事一致性校验 (Narrative Gate) + 物理一致性校验 (Physics Gate) + 隐式优化 (Implicit Opt)**
 
 * **骨架 (Skeleton)**：用户指定的 **《建筑渲染Prompt框架_v1》**。
 * **必填项 (Mandatory)**：**光线 (Lighting)** 和 **材质 (Material)** 必须被定义。
-* **优先权 (Priority)**：`用户意图 > 物理一致性 > AI询问 > 隐式优化`。
+* **优先权 (Priority)**：`用户意图 > 叙事一致性 > 物理一致性 > AI询问 > 隐式优化`。
 
 ---
 
@@ -24,11 +24,53 @@
 > 如草图中**无法明确辨认**且用户**未指定**这两项，**必须停止并询问用户**。
 > *“请问您希望这张图呈现什么光线氛围（如黄昏、日景）？以及建筑的主体材质是什么？”*
 
-### 🟠 逻辑关卡 2：物理一致性校验 (Physics Consistency Gate)
+### 🟣 逻辑关卡 2：叙事一致性校验 (Narrative Coherence Gate)
+
+先回答一个问题：**这张图正在发生什么？**
+
+#### 2.1 叙事分级 (Severity)
+
+- **N0 Hard Narrative Conflict**：主叙事无法成立，必须清零。
+- **N1 Strong Narrative Weakness**：叙事可成立但违和，默认修复。
+- **N2 Soft Narrative Weakness**：叙事可读性不足，可优化。
+
+#### 2.2 Story Card（Mandatory）
+
+在写 Prompt 前必须填：`Where / When / Who / What / Why / Mood / Evidence(>=2)`。
+
+#### 2.3 叙事冲突矩阵 (Narrative Conflict Matrix)
+
+| 维度 | 冲突示例 | 正确处理动作 |
+| :--- | :--- | :--- |
+| 主事件 | 同图同时“商务早高峰”与“婚礼庆典主舞台” | 保留单一主事件 |
+| 功能-行为 | 医院急诊入口 + 野餐派对 | 行为改为功能相关活动 |
+| 情绪闭环 | 宁静冥想 + 大规模奔跑喧闹 | 对齐情绪、光线、行为 |
+| 证据链 | 只写“温暖治愈”无任何可见细节 | 增加动作/道具/空间痕迹 |
+| 焦点 | 主事件无位置描述 | 标注入口/前景/中景事件位置 |
+
+#### 2.4 评分与门槛 (Narrative Score)
+
+- 初始分 `100`
+- 每个 `N0` 扣 `35`
+- 每个 `N1` 扣 `15`
+- 每个 `N2` 扣 `5`
+
+**放行规则**:
+- `N0=0` 且 `Narrative Score>=80` -> 叙事可读，进入 Physics Gate。
+- `Narrative Score 60-79` -> revise 后再进入 Physics Gate。
+- `<60` -> block，重构主叙事。
+
+### 🟠 逻辑关卡 3：物理一致性校验 (Physics Consistency Gate)
 
 在执行隐式优化前，必须先进行现实世界一致性检查。目标是避免“视觉高级但物理冲突”。
 
-#### 必查冲突矩阵 (Conflict Matrix)
+#### 3.1 冲突分级 (Severity)
+
+- **P0 Hard Conflict**：物理上不可同时成立，写实模式下必须清零。
+- **P1 Strong Implausibility**：高度不可信，默认修复。
+- **P2 Soft Tension**：表达松散，可优化。
+
+#### 3.2 必查冲突矩阵 (Extended Conflict Matrix)
 
 | 维度 | 冲突示例（禁止直接并存） | 正确处理动作 |
 | :--- | :--- | :--- |
@@ -38,6 +80,10 @@
 | 湿度 vs 地面状态 | `Wet puddles reflections` + `dry dusty ground` | 统一为 wet 或统一为 dry，不能混用 |
 | 温度/季节 vs 叙事 | `Snow scene` + `summer beach sportswear` | 人物行为与服装改为低温逻辑 |
 | 镜头语言 | `24mm wide distortion` + `telephoto compressed perspective` | 二选一，保持单一镜头特征 |
+| 室内光路 | `No openings` + `strong natural sun shafts` | 增加窗/天窗路径或改人工光 |
+| 材质光学 | `matte raw concrete` + `mirror-like reflections` | 调整反射强度或改材质 |
+| 光源方向 | 主光方向与阴影方向互逆 | 统一主光向量与阴影向量 |
+| 结构重力 | 写实模式下无支撑漂浮体块 | 增加结构系统或转概念模式 |
 
 > **🚨 规则：**
 > - 如果用户输入自相矛盾，不得直接拼接输出。
@@ -45,7 +91,20 @@
 >   - **A. 物理真实版（推荐）**：保留用户核心意图并修正冲突；
 >   - **B. 风格化概念版**：明确标注为非写实表达。
 
-### 🟢 逻辑关卡 3：隐式优化 (Implicit Optimization)
+#### 3.3 评分与门槛 (Physics Score)
+
+- 初始分 `100`
+- 每个 `P0` 扣 `40`
+- 每个 `P1` 扣 `15`
+- 每个 `P2` 扣 `5`
+- 下限 `0`
+
+**放行规则**:
+- `P0=0` 且 `Physics Score>=85` -> 可输出 photorealistic。
+- `Physics Score 60-84` -> revise 后再输出。
+- `<60` -> block，必须重构场景逻辑。
+
+### 🟢 逻辑关卡 4：隐式优化 (Implicit Optimization)
 
 对于所有**非必填项**（如配景、具体天气细节、渲染风格等），遵循以下优先级：
 
@@ -79,14 +138,34 @@
   * [ ] 未知 -> **询问用户**。
   * [x] 已知 -> 查阅《深度研究V3.0》，填入精确的英文术语。
 
-### 第三步：物理一致性校验 (Physics Gate) -> 对照冲突矩阵
+### 第三步：叙事一致性校验 (Narrative Gate) -> 对照 Story Card 与冲突矩阵
 
-* 对已选关键词做一致性扫描：`时间 -> 天气 -> 光线 -> 阴影 -> 材质状态 -> 叙事行为 -> 镜头语言`。
-* 若发现冲突，先修复再进入隐式优化。
-* 输出前在思考说明中记录一句：`Physics Check: pass` 或 `Physics Check: revised (xx -> yy)`。
+* 先写出 `Primary Beat`（主事件一句话）。
+* 依据 `resources/narrative_rules.md` 标注 `N0/N1/N2`。
+* 计算 `Narrative Score` 并判定 pass/revise/block。
+* 输出前在思考说明中附 **Narrative Gate Report**：
+  * `Primary Beat`
+  * `Findings (N0,N1,N2)`
+  * `Actions`
+  * `Narrative Score`
+  * `Decision (pass/revise/block)`
+* 回归验证可直接使用 `resources/narrative_regression_cases.md` 的标准叙事冲突样例。
+
+### 第四步：物理一致性校验 (Physics Gate) -> 对照冲突矩阵
+
+* 对已选关键词做一致性扫描：`时间 -> 天气 -> 光线 -> 阴影 -> 材质状态 -> 光路 -> 叙事行为 -> 镜头语言 -> 结构`。
+* 依据 `resources/physics_rules.md` 标注 `P0/P1/P2`。
+* 若 `P0>0`，必须先修复或转风格化版，禁止直接写实输出。
+* 计算 `Physics Score` 并判定 pass/revise/block。
+* 输出前在思考说明中附 **Physics Gate Report**：
+  * `Mode`
+  * `Findings (P0,P1,P2)`
+  * `Actions`
+  * `Physics Score`
+  * `Decision (pass/revise/block)`
 * 回归验证可直接使用 `resources/physics_regression_cases.md` 的标准冲突样例。
 
-### 第四步：隐式填充 (Implicit Fill) -> 查阅 `prompt_categories.csv`
+### 第五步：隐式填充 (Implicit Fill) -> 查阅 `prompt_categories.csv`
 
 * **[配景/叙事]**：执行 **Story Layer Logic**。
   * `[Dusk/Night]` -> `Commuters, evening mood, silhouettes`

@@ -6,7 +6,7 @@
 
 ## 🏗️ 核心逻辑
 
-**精确控制 = 骨架 (Template V1) + 血肉 (Corpus Data) + 物理一致性校验 (Physics Gate)**
+**精确控制 = 骨架 (Template V1) + 血肉 (Corpus Data) + 叙事一致性校验 (Narrative Gate) + 物理一致性校验 (Physics Gate)**
 
 | Template 插槽 | 数据来源 (Corpus Source) | 示例填充 (Example) |
 | :--- | :--- | :--- |
@@ -15,7 +15,15 @@
 | `[材质名称]` | `2.1 核心材质光学特性` | `Board-formed concrete` |
 | `[情绪描述]` | `5.1 情绪-光线对照表` | `Serene, contemplative` |
 
-> **Physics Gate (Mandatory):** 在最终输出前，检查 `时间/天气/光照/阴影/材质状态/叙事行为` 是否互相一致；冲突项必须先改写后输出。
+> **Narrative Gate (Mandatory):** 在最终输出前，按 `narrative_rules.md` 构建 Story Card（Where/When/Who/What/Why/Mood/Evidence）并检查 N0/N1/N2。
+>
+> **Physics Gate (Mandatory):** 在最终输出前，按 `physics_rules.md` 检查 `时间/天气/光照/阴影/材质状态/光路/叙事行为/镜头/结构` 是否一致；冲突项必须先改写后输出。
+>
+> **Output Requirement:** 在 Thinking Process 中同时附：
+> - `Narrative Gate Report`（N0/N1/N2 + Narrative Score + Decision）
+> - `Physics Gate Report`（P0/P1/P2 + Physics Score + Decision）
+>
+> **Regression Entry:** `narrative_regression_cases.md` + `physics_regression_cases.md`
 
 ---
 
