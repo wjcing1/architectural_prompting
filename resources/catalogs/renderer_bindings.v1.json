@@ -1,0 +1,82 @@
+{
+  "catalog_version": "renderer_bindings.v1",
+  "generated_at": "2026-02-18",
+  "notes": "D5-only binding table. asset_id values validated via D5 public works API (/works/product/detail) on 2026-02-18.",
+  "engines": [
+    "d5"
+  ],
+  "bindings": [
+    {
+      "material_id": "mat.concrete.fair_faced.white_matte.v1",
+      "engine": "d5",
+      "asset_pack": "d5-library",
+      "lookup_key": "white concrete matte",
+      "asset_id": "1MFD330WUA5P",
+      "binding_status": "confirmed_d5_api"
+    },
+    {
+      "material_id": "mat.concrete.board_formed.raw_gray.v1",
+      "engine": "d5",
+      "asset_pack": "d5-library",
+      "lookup_key": "board formed concrete",
+      "asset_id": "5M6D51Z1YKHD",
+      "binding_status": "confirmed_d5_api"
+    },
+    {
+      "material_id": "mat.glass.curtain_wall.clear_reflective.v1",
+      "engine": "d5",
+      "asset_pack": "d5-library",
+      "lookup_key": "glass curtain wall",
+      "asset_id": "7M55ECZTQFYB",
+      "binding_status": "confirmed_d5_api"
+    },
+    {
+      "material_id": "mat.metal.aluminum.powder_coated_white.v1",
+      "engine": "d5",
+      "asset_pack": "d5-library",
+      "lookup_key": "white aluminum panel",
+      "asset_id": "5MF5F0RD2GFN",
+      "binding_status": "confirmed_d5_api"
+    },
+    {
+      "material_id": "mat.metal.stainless.polished.v1",
+      "engine": "d5",
+      "asset_pack": "d5-library",
+      "lookup_key": "mirror stainless steel",
+      "asset_id": "5M1DFD4NMIAS",
+      "binding_status": "confirmed_d5_api"
+    },
+    {
+      "material_id": "mat.wood.oak.warm_cladding.v1",
+      "engine": "d5",
+      "asset_pack": "d5-library",
+      "lookup_key": "oak wood cladding",
+      "asset_id": "7M5F2CTHU9CD",
+      "binding_status": "confirmed_d5_api"
+    },
+    {
+      "material_id": "mat.stone.limestone.white_linear.v1",
+      "engine": "d5",
+      "asset_pack": "d5-library",
+      "lookup_key": "limestone facade white",
+      "asset_id": "7ME159ODKPF4",
+      "binding_status": "confirmed_d5_api"
+    },
+    {
+      "material_id": "mat.brick.terracotta.exposed.v1",
+      "engine": "d5",
+      "asset_pack": "d5-library",
+      "lookup_key": "red brick facade",
+      "asset_id": "5M59E1WCPYOG",
+      "binding_status": "confirmed_d5_api"
+    },
+    {
+      "material_id": "mat.metal.corrugated.white_ribbed.v1",
+      "engine": "d5",
+      "asset_pack": "d5-library",
+      "lookup_key": "corrugated metal white panel",
+      "asset_id": "9M231FZ647ZR",
+      "binding_status": "confirmed_d5_api"
+    }
+  ]
+}

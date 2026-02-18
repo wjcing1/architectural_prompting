@@ -1,0 +1,82 @@
+{
+  "schema_version": "apr-json-1.1",
+  "status": "READY",
+  "request_id": "demo-20260218-001",
+  "mandatory_check": {
+    "pass": true,
+    "missing": [],
+    "sources": {
+      "lighting_source": "USER",
+      "core_material_source": "USER"
+    }
+  },
+  "gate_report": {
+    "narrative": {
+      "N0": 0,
+      "N1": 0,
+      "N2": 1,
+      "score": 95,
+      "decision": "pass"
+    },
+    "physics": {
+      "P0": 0,
+      "P1": 0,
+      "P2": 1,
+      "score": 95,
+      "decision": "pass"
+    }
+  },
+  "tokens": {
+    "materials": [
+      {
+        "material_id": "mat.concrete.board_formed.raw_gray.v1",
+        "default_color_id": "col.ral.7043.v1",
+        "renderer_bindings": [
+          {
+            "engine": "d5",
+            "asset_pack": "d5-library",
+            "lookup_key": "board formed concrete raw",
+            "asset_id": null
+          }
+        ],
+        "real_world_bindings": [
+          {
+            "classification_system": "MasterFormat",
+            "classification_code": "03 30 00",
+            "search_key": "board-formed concrete wall",
+            "manufacturer": null,
+            "collection": null,
+            "sku": null
+          }
+        ]
+      }
+    ],
+    "colors": [
+      {
+        "color_id": "col.ral.7043.v1",
+        "space": "RAL",
+        "code": "7043",
+        "name": "Traffic Grey B",
+        "hex": "#4F5258",
+        "srgb": [
+          79,
+          82,
+          88
+        ]
+      }
+    ]
+  },
+  "scene_assignments": [
+    {
+      "slot": "facade_primary",
+      "material_id": "mat.concrete.board_formed.raw_gray.v1",
+      "color_id": "col.ral.7043.v1"
+    }
+  ],
+  "prompt": {
+    "positive_en": "Architectural rendering, board-formed concrete facade, golden hour side lighting, subtle atmospheric haze, physically plausible shadows and reflections.",
+    "negative_en": "cartoon style, over-saturated colors, distorted geometry, impossible shadows",
+    "render_profile_id": "render.d5.photoreal.exterior.v1"
+  },
+  "questions": []
+}

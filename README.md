@@ -31,14 +31,22 @@ The prompt pipeline is built around two mandatory gates before final drafting:
 
 ## Output Contract
 
-Each generation should include:
+Each generation must return one fixed JSON object validated by:
 
-1. Thinking Process
-- `Narrative Gate Report`
-- `Physics Gate Report`
+- `resources/schemas/apr-output.schema.json`
 
-2. Final Prompt
-- English prompt in a code block.
+Key constraints:
+
+- All materials must resolve to canonical `material_id` values from
+  `resources/catalogs/material_catalog.v1.json`.
+- All colors must resolve to canonical `color_id` values from
+  `resources/catalogs/color_catalog.v1.json`.
+- Renderer mappings must come from
+  `resources/catalogs/renderer_bindings.v1.json`.
+- Current baseline renderer is D5 (`engine = d5`).
+- Real-world specification mappings must come from
+  `resources/catalogs/real_world_bindings.v1.json`.
+- `status` must be one of: `ASK_USER`, `READY`, `REVISE`, `BLOCK`.
 
 ## Repository Layout
 
@@ -52,6 +60,12 @@ Each generation should include:
 - `resources/physics_rules.md`: Physics rule engine and scoring.
 - `resources/narrative_regression_cases.md`: Narrative regression suite.
 - `resources/physics_regression_cases.md`: Physics regression suite.
+- `resources/catalogs/material_catalog.v1.json`: Canonical material token IDs.
+- `resources/catalogs/color_catalog.v1.json`: Canonical color token IDs.
+- `resources/catalogs/renderer_bindings.v1.json`: Material to renderer bindings.
+- `resources/catalogs/real_world_bindings.v1.json`: Material to real-world specs.
+- `resources/schemas/apr-output.schema.json`: JSON output validation schema.
+- `resources/examples/apr-output.ready.example.json`: READY status JSON example.
 
 ## Verification Strategy
 
