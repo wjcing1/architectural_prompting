@@ -29,6 +29,30 @@ The prompt pipeline is built around two mandatory gates before final drafting:
 - Compute `Physics Score`.
 - Block photorealistic claims if `P0 > 0`.
 
+## Workflow Diagram
+
+```mermaid
+flowchart TD
+    A["Receive user request"] --> B["Mandatory Check<br/>Lighting/Atmosphere + Core Material"]
+
+    B -->|Missing any required field| C["Ask clarification only<br/>status=ASK_USER<br/>questions not empty"]
+    C --> Z["Wait for user input"]
+
+    B -->|Both provided by user| D["Narrative Intent Gate<br/>Story Card + N0/N1/N2 + Score"]
+    D -->|N0 > 0 or score < 80| E["Fix narrative conflict or downgrade to conceptual mode<br/>status=REVISE or BLOCK"]
+
+    D -->|N0 = 0 and score >= 80| F["Physics Consistency Gate<br/>P0/P1/P2 + Score"]
+    F -->|P0 > 0 or score < 85| G["Report physical conflict and provide two options<br/>1) physically real version (recommended)<br/>2) stylized non-photoreal version<br/>status=REVISE or BLOCK"]
+
+    F -->|P0 = 0 and score >= 85| H["Implicit Optimization<br/>environment-narrative coupling"]
+    H --> I["Draft Prompt<br/>framework + corpus"]
+    I --> J["Token Binding<br/>material_id / color_id + D5 + real-world"]
+    J --> K["Schema Validation<br/>resources/schemas/apr-output.schema.json"]
+
+    K -->|Pass| L["Output fixed JSON<br/>schema_version=apr-json-1.1<br/>status=READY<br/>questions=[]"]
+    K -->|Fail| M["Fix JSON and validate again"]
+```
+
 ## Output Contract
 
 Each generation must return one fixed JSON object validated by:
