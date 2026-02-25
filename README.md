@@ -35,7 +35,7 @@ The prompt pipeline is built around two mandatory gates before final drafting:
 flowchart TD
     A["Receive user request"] --> B["Mandatory Check<br/>Lighting/Atmosphere + Core Material"]
 
-    B -->|Missing any required field| C["Ask clarification only<br/>status=ASK_USER<br/>questions not empty"]
+    B -->|Missing any required field| C["Ask clarification only<br/>no diagnostic details in output"]
     C --> Z["Wait for user input"]
 
     B -->|Both provided by user| D["Narrative Intent Gate<br/>Story Card + N0/N1/N2 + Score"]
@@ -47,30 +47,32 @@ flowchart TD
     F -->|P0 = 0 and score >= 85| H["Implicit Optimization<br/>environment-narrative coupling"]
     H --> I["Draft Prompt<br/>framework + corpus"]
     I --> J["Token Binding<br/>material_id / color_id + D5 + real-world"]
-    J --> K["Schema Validation<br/>resources/schemas/apr-output.schema.json"]
+    J --> K["Internal validation<br/>schema + token bindings (hidden)"]
 
-    K -->|Pass| L["Output fixed JSON<br/>schema_version=apr-json-1.1<br/>status=READY<br/>questions=[]"]
-    K -->|Fail| M["Fix JSON and validate again"]
+    K -->|Pass| L["Output one JSON parameter card only"]
+    K -->|Fail| M["Repair internally and regenerate prompt"]
 ```
 
-## Output Contract
+## Output Policy
 
-Each generation must return one fixed JSON object validated by:
+Default user-facing mode is **JSON_PARAM_CARD_ONLY**:
 
-- `resources/schemas/apr-output.schema.json`
+- Show one JSON parameter card with 8 fixed segments.
+- Do not show gate scores, validation logs, status fields, or token binding details.
+- If required inputs are missing, return a JSON clarification object only.
+- `输出控制` must include `构图锁定`, explicitly stating original composition lock
+  (no camera angle / viewpoint / perspective change).
 
-Key constraints:
+Internal checks still run:
 
-- All materials must resolve to canonical `material_id` values from
-  `resources/catalogs/material_catalog.v1.json`.
-- All colors must resolve to canonical `color_id` values from
-  `resources/catalogs/color_catalog.v1.json`.
-- Renderer mappings must come from
-  `resources/catalogs/renderer_bindings.v1.json`.
-- Current baseline renderer is D5 (`engine = d5`).
-- Real-world specification mappings must come from
-  `resources/catalogs/real_world_bindings.v1.json`.
-- `status` must be one of: `ASK_USER`, `READY`, `REVISE`, `BLOCK`.
+- Narrative and physics gates are still enforced.
+- Material/color ID binding is still enforced (D5 baseline).
+- Internal structured validation can still use
+  `resources/schemas/apr-output.schema.json`.
+
+Optional **JSON_DEBUG** mode:
+
+- Only return full JSON when the user explicitly asks for JSON or API-structured output.
 
 ## Repository Layout
 
@@ -89,6 +91,7 @@ Key constraints:
 - `resources/catalogs/renderer_bindings.v1.json`: Material to renderer bindings.
 - `resources/catalogs/real_world_bindings.v1.json`: Material to real-world specs.
 - `resources/schemas/apr-output.schema.json`: JSON output validation schema.
+- `resources/examples/apr-output.ask-user.example.json`: ASK_USER status JSON example.
 - `resources/examples/apr-output.ready.example.json`: READY status JSON example.
 
 ## Verification Strategy
