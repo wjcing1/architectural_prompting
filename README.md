@@ -46,7 +46,7 @@ flowchart TD
 
     F -->|P0 = 0 and score >= 85| H["Implicit Optimization<br/>environment-narrative coupling"]
     H --> I["Draft Prompt<br/>framework + corpus"]
-    I --> J["Token Binding<br/>material_id / color_id + D5 + real-world"]
+    I --> J["Material Semantic Binding<br/>material_id only (no color_id / no renderer asset)"]
     J --> K["Internal validation<br/>schema + token bindings (hidden)"]
 
     K -->|Pass| L["Output one JSON parameter card only"]
@@ -58,6 +58,7 @@ flowchart TD
 Default user-facing mode is **JSON_PARAM_CARD_ONLY**:
 
 - Show one JSON parameter card with 8 fixed segments.
+- Wrap the final JSON in a fenced `json` code block for one-click copy.
 - Do not show gate scores, validation logs, status fields, or token binding details.
 - If required inputs are missing, return a JSON clarification object only.
 - `输出控制` must include `构图锁定`, explicitly stating original composition lock
@@ -66,7 +67,7 @@ Default user-facing mode is **JSON_PARAM_CARD_ONLY**:
 Internal checks still run:
 
 - Narrative and physics gates are still enforced.
-- Material/color ID binding is still enforced (D5 baseline).
+- Material semantic binding is still enforced (`material_id`), but color IDs and renderer bindings are disabled by default.
 - Internal structured validation can still use
   `resources/schemas/apr-output.schema.json`.
 
@@ -87,9 +88,6 @@ Optional **JSON_DEBUG** mode:
 - `resources/narrative_regression_cases.md`: Narrative regression suite.
 - `resources/physics_regression_cases.md`: Physics regression suite.
 - `resources/catalogs/material_catalog.v1.json`: Canonical material token IDs.
-- `resources/catalogs/color_catalog.v1.json`: Canonical color token IDs.
-- `resources/catalogs/renderer_bindings.v1.json`: Material to renderer bindings.
-- `resources/catalogs/real_world_bindings.v1.json`: Material to real-world specs.
 - `resources/schemas/apr-output.schema.json`: JSON output validation schema.
 - `resources/examples/apr-output.ask-user.example.json`: ASK_USER status JSON example.
 - `resources/examples/apr-output.ready.example.json`: READY status JSON example.

@@ -1,5 +1,5 @@
 {
-  "schema_version": "apr-json-1.1",
+  "schema_version": "apr-json-1.2",
   "status": "ASK_USER",
   "request_id": "demo-20260225-ask-user-001",
   "mandatory_check": {
@@ -30,14 +30,12 @@
     }
   },
   "tokens": {
-    "materials": [],
-    "colors": []
+    "materials": []
   },
   "scene_assignments": [],
   "prompt": {
     "positive_en": "",
-    "negative_en": "",
-    "render_profile_id": "render.d5.photoreal.exterior.v1"
+    "negative_en": ""
   },
   "questions": [
     {

@@ -18,7 +18,7 @@
   "properties": {
     "schema_version": {
       "type": "string",
-      "const": "apr-json-1.1"
+      "const": "apr-json-1.2"
     },
     "status": {
       "type": "string",
@@ -104,20 +104,13 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "materials",
-        "colors"
+        "materials"
       ],
       "properties": {
         "materials": {
           "type": "array",
           "items": {
             "$ref": "#/$defs/materialToken"
-          }
-        },
-        "colors": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/colorToken"
           }
         }
       }
@@ -129,8 +122,7 @@
         "additionalProperties": false,
         "required": [
           "slot",
-          "material_id",
-          "color_id"
+          "material_id"
         ],
         "properties": {
           "slot": {
@@ -140,10 +132,6 @@
           "material_id": {
             "type": "string",
             "pattern": "^mat\\.[a-z0-9_]+\\.[a-z0-9_]+\\.[a-z0-9_]+\\.v[0-9]+$"
-          },
-          "color_id": {
-            "type": "string",
-            "pattern": "^col\\.[a-z0-9_]+\\.[a-z0-9_\\-]+\\.v[0-9]+$"
           }
         }
       }
@@ -153,8 +141,7 @@
       "additionalProperties": false,
       "required": [
         "positive_en",
-        "negative_en",
-        "render_profile_id"
+        "negative_en"
       ],
       "properties": {
         "positive_en": {
@@ -162,10 +149,6 @@
         },
         "negative_en": {
           "type": "string"
-        },
-        "render_profile_id": {
-          "type": "string",
-          "minLength": 1
         }
       }
     },
@@ -278,150 +261,24 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "material_id",
-        "default_color_id",
-        "renderer_bindings",
-        "real_world_bindings"
+        "material_id"
       ],
       "properties": {
         "material_id": {
           "type": "string",
           "pattern": "^mat\\.[a-z0-9_]+\\.[a-z0-9_]+\\.[a-z0-9_]+\\.v[0-9]+$"
         },
-        "default_color_id": {
-          "type": "string",
-          "pattern": "^col\\.[a-z0-9_]+\\.[a-z0-9_\\-]+\\.v[0-9]+$"
-        },
-        "renderer_bindings": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "additionalProperties": false,
-            "required": [
-              "engine",
-              "asset_pack",
-              "lookup_key",
-              "asset_id"
-            ],
-            "properties": {
-              "engine": {
-                "type": "string",
-                "enum": [
-                  "d5"
-                ]
-              },
-              "asset_pack": {
-                "type": "string",
-                "minLength": 1
-              },
-              "lookup_key": {
-                "type": "string",
-                "minLength": 1
-              },
-              "asset_id": {
-                "type": [
-                  "string",
-                  "null"
-                ]
-              }
-            }
-          }
-        },
-        "real_world_bindings": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "additionalProperties": false,
-            "required": [
-              "classification_system",
-              "classification_code",
-              "search_key",
-              "manufacturer",
-              "collection",
-              "sku"
-            ],
-            "properties": {
-              "classification_system": {
-                "type": "string",
-                "minLength": 1
-              },
-              "classification_code": {
-                "type": "string",
-                "minLength": 1
-              },
-              "search_key": {
-                "type": "string",
-                "minLength": 1
-              },
-              "manufacturer": {
-                "type": [
-                  "string",
-                  "null"
-                ]
-              },
-              "collection": {
-                "type": [
-                  "string",
-                  "null"
-                ]
-              },
-              "sku": {
-                "type": [
-                  "string",
-                  "null"
-                ]
-              }
-            }
-          }
-        }
-      }
-    },
-    "colorToken": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "color_id",
-        "space",
-        "code",
-        "name",
-        "hex"
-      ],
-      "properties": {
-        "color_id": {
-          "type": "string",
-          "pattern": "^col\\.[a-z0-9_]+\\.[a-z0-9_\\-]+\\.v[0-9]+$"
-        },
-        "space": {
-          "type": "string",
-          "enum": [
-            "RAL",
-            "NCS",
-            "PANTONE",
-            "HEX",
-            "SRGB"
-          ]
-        },
-        "code": {
+        "semantic_material_name": {
           "type": "string",
           "minLength": 1
         },
-        "name": {
+        "lookup_key": {
           "type": "string",
           "minLength": 1
         },
-        "hex": {
+        "finish_hint": {
           "type": "string",
-          "pattern": "^#[0-9A-Fa-f]{6}$"
-        },
-        "srgb": {
-          "type": "array",
-          "minItems": 3,
-          "maxItems": 3,
-          "items": {
-            "type": "integer",
-            "minimum": 0,
-            "maximum": 255
-          }
+          "minLength": 1
         }
       }
     }
@@ -473,9 +330,6 @@
           "tokens": {
             "properties": {
               "materials": {
-                "minItems": 1
-              },
-              "colors": {
                 "minItems": 1
               }
             }
